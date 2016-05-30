@@ -54,6 +54,7 @@ addons:
       - libglu1-mesa-dev
       - libssl-dev
       - libxinerama-dev
+      - libxrandr-dev-lts-trusty
       - libudev-dev
 
       # For cross-compiling to Windows.
