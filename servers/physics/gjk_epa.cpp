@@ -1,17 +1,63 @@
-/*************************************************/
-/*  gjk_epa.cpp                                  */
-/*************************************************/
-/*            This file is part of:              */
-/*                GODOT ENGINE                   */
-/*************************************************/
-/*       Source code within this file is:        */
-/*  (c) 2007-2016 Juan Linietsky, Ariel Manzur   */
-/*             All Rights Reserved.              */
-/*************************************************/
-
+/*************************************************************************/
+/*  gjk_epa.cpp                                                          */
+/*************************************************************************/
+/*                       This file is part of:                           */
+/*                           GODOT ENGINE                                */
+/*                      https://godotengine.org                          */
+/*************************************************************************/
+/* Copyright (c) 2007-2017 Juan Linietsky, Ariel Manzur.                 */
+/* Copyright (c) 2014-2017 Godot Engine contributors (cf. AUTHORS.md)    */
+/*                                                                       */
+/* Permission is hereby granted, free of charge, to any person obtaining */
+/* a copy of this software and associated documentation files (the       */
+/* "Software"), to deal in the Software without restriction, including   */
+/* without limitation the rights to use, copy, modify, merge, publish,   */
+/* distribute, sublicense, and/or sell copies of the Software, and to    */
+/* permit persons to whom the Software is furnished to do so, subject to */
+/* the following conditions:                                             */
+/*                                                                       */
+/* The above copyright notice and this permission notice shall be        */
+/* included in all copies or substantial portions of the Software.       */
+/*                                                                       */
+/* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,       */
+/* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF    */
+/* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.*/
+/* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  */
+/* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,  */
+/* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE     */
+/* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                */
+/*************************************************************************/
 #include "gjk_epa.h"
 
+/* Disabling formatting for thirdparty code snippet */
+/* clang-format off */
+
 /*************** Bullet's GJK-EPA2 IMPLEMENTATION *******************/
+
+/*
+Bullet Continuous Collision Detection and Physics Library
+Copyright (c) 2003-2008 Erwin Coumans  http://continuousphysics.com/Bullet/
+
+This software is provided 'as-is', without any express or implied warranty.
+In no event will the authors be held liable for any damages arising from the
+use of this software.
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it
+freely,
+subject to the following restrictions:
+
+1. The origin of this software must not be misrepresented; you must not
+claim that you wrote the original software. If you use this software in a
+product, an acknowledgment in the product documentation would be appreciated
+but is not required.
+2. Altered source versions must be plainly marked as such, and must not be
+misrepresented as being the original software.
+3. This notice may not be removed or altered from any source distribution.
+*/
+
+/*
+GJK-EPA collision solver by Nathanael Presson, 2008
+*/
 
 	// Config
 
@@ -38,7 +84,7 @@ namespace GjkEpa2 {
 
 struct sResults	{
 	enum eStatus {
-		Separated,		/* Shapes doesnt penetrate */
+		Separated,		/* Shapes doesn't penetrate */
 		Penetrating,	/* Shapes are penetrating */
 		GJK_Failed,		/* GJK phase fail, no big issue, shapes are probably just 'touching'	*/
 		EPA_Failed /* EPA phase fail, bigger problem, need to save parameters, and debug	*/
@@ -364,8 +410,8 @@ struct	GJK
 			if(l>GJK_SIMPLEX3_EPS)
 			{
 				real_t	mindist=-1;
-				real_t	subw[2];
-				U			subm;
+				real_t	subw[2] = { 0 , 0};
+				U 		subm = 0;
 				for(U i=0;i<3;++i)
 				{
 					if(vec3_dot(*vt[i],vec3_cross(dl[i],n))>0)
@@ -412,7 +458,7 @@ struct	GJK
 			{
 				real_t	mindist=-1;
 				real_t	subw[3];
-				U			subm;
+				U		subm=0;
 				for(U i=0;i<3;++i)
 				{
 					const U			j=imd3[i];
@@ -862,40 +908,35 @@ bool Penetration(	const ShapeSW*	shape0,
 
 } // end of namespace
 
+/* clang-format on */
 
-
-
-
-bool gjk_epa_calculate_distance(const ShapeSW *p_shape_A, const Transform& p_transform_A, const ShapeSW *p_shape_B, const Transform& p_transform_B, Vector3& r_result_A, Vector3& r_result_B) {
-
+bool gjk_epa_calculate_distance(const ShapeSW *p_shape_A, const Transform &p_transform_A, const ShapeSW *p_shape_B, const Transform &p_transform_B, Vector3 &r_result_A, Vector3 &r_result_B) {
 
 	GjkEpa2::sResults res;
 
-	if (GjkEpa2::Distance(p_shape_A,p_transform_A,p_shape_B,p_transform_B,p_transform_B.origin-p_transform_A.origin,res)) {
+	if (GjkEpa2::Distance(p_shape_A, p_transform_A, p_shape_B, p_transform_B, p_transform_B.origin - p_transform_A.origin, res)) {
 
-		r_result_A=res.witnesses[0];
-		r_result_B=res.witnesses[1];
+		r_result_A = res.witnesses[0];
+		r_result_B = res.witnesses[1];
 		return true;
 	}
 
 	return false;
-
 }
 
-bool gjk_epa_calculate_penetration(const ShapeSW *p_shape_A, const Transform& p_transform_A, const ShapeSW *p_shape_B, const Transform& p_transform_B, CollisionSolverSW::CallbackResult p_result_callback,void *p_userdata, bool p_swap ) {
+bool gjk_epa_calculate_penetration(const ShapeSW *p_shape_A, const Transform &p_transform_A, const ShapeSW *p_shape_B, const Transform &p_transform_B, CollisionSolverSW::CallbackResult p_result_callback, void *p_userdata, bool p_swap) {
 
 	GjkEpa2::sResults res;
 
-	if (GjkEpa2::Penetration(p_shape_A,p_transform_A,p_shape_B,p_transform_B,p_transform_B.origin-p_transform_A.origin,res)) {
+	if (GjkEpa2::Penetration(p_shape_A, p_transform_A, p_shape_B, p_transform_B, p_transform_B.origin - p_transform_A.origin, res)) {
 		if (p_result_callback) {
 			if (p_swap)
-				p_result_callback(res.witnesses[1],res.witnesses[0],p_userdata);
+				p_result_callback(res.witnesses[1], res.witnesses[0], p_userdata);
 			else
-				p_result_callback(res.witnesses[0],res.witnesses[1],p_userdata);
+				p_result_callback(res.witnesses[0], res.witnesses[1], p_userdata);
 		}
 		return true;
 	}
 
 	return false;
 }
-

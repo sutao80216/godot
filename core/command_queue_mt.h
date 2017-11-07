@@ -3,9 +3,10 @@
 /*************************************************************************/
 /*                       This file is part of:                           */
 /*                           GODOT ENGINE                                */
-/*                    http://www.godotengine.org                         */
+/*                      https://godotengine.org                          */
 /*************************************************************************/
-/* Copyright (c) 2007-2016 Juan Linietsky, Ariel Manzur.                 */
+/* Copyright (c) 2007-2017 Juan Linietsky, Ariel Manzur.                 */
+/* Copyright (c) 2014-2017 Godot Engine contributors (cf. AUTHORS.md)    */
 /*                                                                       */
 /* Permission is hereby granted, free of charge, to any person obtaining */
 /* a copy of this software and associated documentation files (the       */
@@ -29,11 +30,11 @@
 #ifndef COMMAND_QUEUE_MT_H
 #define COMMAND_QUEUE_MT_H
 
-#include "typedefs.h"
-#include "os/semaphore.h"
-#include "os/mutex.h"
 #include "os/memory.h"
+#include "os/mutex.h"
+#include "os/semaphore.h"
 #include "simple_type.h"
+#include "typedefs.h"
 /**
 	@author Juan Linietsky <reduzio@gmail.com>
 */
@@ -48,69 +49,69 @@ class CommandQueueMT {
 
 	struct CommandBase {
 
-		virtual void call()=0;
-		virtual ~CommandBase() {};
+		virtual void call() = 0;
+		virtual ~CommandBase(){};
 	};
 
-	template<class T,class M>
+	template <class T, class M>
 	struct Command0 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 
 		virtual void call() { (instance->*method)(); }
 	};
 
-	template<class T,class M,class P1>
+	template <class T, class M, class P1>
 	struct Command1 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 
 		virtual void call() { (instance->*method)(p1); }
 	};
 
-	template<class T,class M,class P1,class P2>
+	template <class T, class M, class P1, class P2>
 	struct Command2 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
 
-		virtual void call() { (instance->*method)(p1,p2); }
+		virtual void call() { (instance->*method)(p1, p2); }
 	};
 
-	template<class T,class M,class P1,class P2,class P3>
+	template <class T, class M, class P1, class P2, class P3>
 	struct Command3 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
 		typename GetSimpleTypeT<P3>::type_t p3;
 
-		virtual void call() { (instance->*method)(p1,p2,p3); }
+		virtual void call() { (instance->*method)(p1, p2, p3); }
 	};
 
-	template<class T,class M,class P1,class P2,class P3,class P4>
+	template <class T, class M, class P1, class P2, class P3, class P4>
 	struct Command4 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
 		typename GetSimpleTypeT<P3>::type_t p3;
 		typename GetSimpleTypeT<P4>::type_t p4;
 
-		virtual void call() { (instance->*method)(p1,p2,p3,p4); }
+		virtual void call() { (instance->*method)(p1, p2, p3, p4); }
 	};
 
-	template<class T,class M,class P1,class P2,class P3,class P4,class P5>
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5>
 	struct Command5 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
@@ -118,13 +119,13 @@ class CommandQueueMT {
 		typename GetSimpleTypeT<P4>::type_t p4;
 		typename GetSimpleTypeT<P5>::type_t p5;
 
-		virtual void call() { (instance->*method)(p1,p2,p3,p4,p5); }
+		virtual void call() { (instance->*method)(p1, p2, p3, p4, p5); }
 	};
 
-	template<class T,class M,class P1,class P2,class P3,class P4,class P5,class P6>
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6>
 	struct Command6 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
@@ -133,13 +134,13 @@ class CommandQueueMT {
 		typename GetSimpleTypeT<P5>::type_t p5;
 		typename GetSimpleTypeT<P6>::type_t p6;
 
-		virtual void call() { (instance->*method)(p1,p2,p3,p4,p5,p6); }
+		virtual void call() { (instance->*method)(p1, p2, p3, p4, p5, p6); }
 	};
 
-	template<class T,class M,class P1,class P2,class P3,class P4,class P5,class P6,class P7>
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7>
 	struct Command7 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
@@ -149,96 +150,215 @@ class CommandQueueMT {
 		typename GetSimpleTypeT<P6>::type_t p6;
 		typename GetSimpleTypeT<P7>::type_t p7;
 
-		virtual void call() { (instance->*method)(p1,p2,p3,p4,p5,p6,p7); }
+		virtual void call() { (instance->*method)(p1, p2, p3, p4, p5, p6, p7); }
+	};
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8>
+	struct Command8 : public CommandBase {
+
+		T *instance;
+		M method;
+		typename GetSimpleTypeT<P1>::type_t p1;
+		typename GetSimpleTypeT<P2>::type_t p2;
+		typename GetSimpleTypeT<P3>::type_t p3;
+		typename GetSimpleTypeT<P4>::type_t p4;
+		typename GetSimpleTypeT<P5>::type_t p5;
+		typename GetSimpleTypeT<P6>::type_t p6;
+		typename GetSimpleTypeT<P7>::type_t p7;
+		typename GetSimpleTypeT<P8>::type_t p8;
+
+		virtual void call() { (instance->*method)(p1, p2, p3, p4, p5, p6, p7, p8); }
+	};
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8, class P9>
+	struct Command9 : public CommandBase {
+
+		T *instance;
+		M method;
+		typename GetSimpleTypeT<P1>::type_t p1;
+		typename GetSimpleTypeT<P2>::type_t p2;
+		typename GetSimpleTypeT<P3>::type_t p3;
+		typename GetSimpleTypeT<P4>::type_t p4;
+		typename GetSimpleTypeT<P5>::type_t p5;
+		typename GetSimpleTypeT<P6>::type_t p6;
+		typename GetSimpleTypeT<P7>::type_t p7;
+		typename GetSimpleTypeT<P8>::type_t p8;
+		typename GetSimpleTypeT<P9>::type_t p9;
+
+		virtual void call() { (instance->*method)(p1, p2, p3, p4, p5, p6, p7, p8, p9); }
+	};
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8, class P9, class P10>
+	struct Command10 : public CommandBase {
+
+		T *instance;
+		M method;
+		typename GetSimpleTypeT<P1>::type_t p1;
+		typename GetSimpleTypeT<P2>::type_t p2;
+		typename GetSimpleTypeT<P3>::type_t p3;
+		typename GetSimpleTypeT<P4>::type_t p4;
+		typename GetSimpleTypeT<P5>::type_t p5;
+		typename GetSimpleTypeT<P6>::type_t p6;
+		typename GetSimpleTypeT<P7>::type_t p7;
+		typename GetSimpleTypeT<P8>::type_t p8;
+		typename GetSimpleTypeT<P9>::type_t p9;
+		typename GetSimpleTypeT<P10>::type_t p10;
+
+		virtual void call() { (instance->*method)(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10); }
+	};
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8, class P9, class P10, class P11>
+	struct Command11 : public CommandBase {
+
+		T *instance;
+		M method;
+		typename GetSimpleTypeT<P1>::type_t p1;
+		typename GetSimpleTypeT<P2>::type_t p2;
+		typename GetSimpleTypeT<P3>::type_t p3;
+		typename GetSimpleTypeT<P4>::type_t p4;
+		typename GetSimpleTypeT<P5>::type_t p5;
+		typename GetSimpleTypeT<P6>::type_t p6;
+		typename GetSimpleTypeT<P7>::type_t p7;
+		typename GetSimpleTypeT<P8>::type_t p8;
+		typename GetSimpleTypeT<P9>::type_t p9;
+		typename GetSimpleTypeT<P10>::type_t p10;
+		typename GetSimpleTypeT<P11>::type_t p11;
+
+		virtual void call() { (instance->*method)(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11); }
+	};
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8, class P9, class P10, class P11, class P12>
+	struct Command12 : public CommandBase {
+
+		T *instance;
+		M method;
+		typename GetSimpleTypeT<P1>::type_t p1;
+		typename GetSimpleTypeT<P2>::type_t p2;
+		typename GetSimpleTypeT<P3>::type_t p3;
+		typename GetSimpleTypeT<P4>::type_t p4;
+		typename GetSimpleTypeT<P5>::type_t p5;
+		typename GetSimpleTypeT<P6>::type_t p6;
+		typename GetSimpleTypeT<P7>::type_t p7;
+		typename GetSimpleTypeT<P8>::type_t p8;
+		typename GetSimpleTypeT<P9>::type_t p9;
+		typename GetSimpleTypeT<P10>::type_t p10;
+		typename GetSimpleTypeT<P11>::type_t p11;
+		typename GetSimpleTypeT<P12>::type_t p12;
+
+		virtual void call() { (instance->*method)(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12); }
 	};
 
 	/* comands that return */
 
-	template<class T,class M,class R>
+	template <class T, class M, class R>
 	struct CommandRet0 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
-		R* ret;
+		R *ret;
 		SyncSemaphore *sync;
 
-		virtual void call() { *ret = (instance->*method)(); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			*ret = (instance->*method)();
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
-	template<class T,class M,class P1,class R>
+	template <class T, class M, class P1, class R>
 	struct CommandRet1 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
-		R* ret;
+		R *ret;
 		SyncSemaphore *sync;
 
-		virtual void call() { *ret = (instance->*method)(p1); sync->sem->post(); sync->in_use=false; }
+		virtual void call() {
+			*ret = (instance->*method)(p1);
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
-	template<class T,class M,class P1,class P2,class R>
+	template <class T, class M, class P1, class P2, class R>
 	struct CommandRet2 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
-		R* ret;
+		R *ret;
 		SyncSemaphore *sync;
 
-		virtual void call() { *ret = (instance->*method)(p1,p2); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			*ret = (instance->*method)(p1, p2);
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
-	template<class T,class M,class P1,class P2,class P3,class R>
+	template <class T, class M, class P1, class P2, class P3, class R>
 	struct CommandRet3 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
 		typename GetSimpleTypeT<P3>::type_t p3;
-		R* ret;
+		R *ret;
 		SyncSemaphore *sync;
 
-		virtual void call() { *ret = (instance->*method)(p1,p2,p3); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			*ret = (instance->*method)(p1, p2, p3);
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
-	template<class T,class M,class P1,class P2,class P3,class P4,class R>
+	template <class T, class M, class P1, class P2, class P3, class P4, class R>
 	struct CommandRet4 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
 		typename GetSimpleTypeT<P3>::type_t p3;
 		typename GetSimpleTypeT<P4>::type_t p4;
-		R* ret;
+		R *ret;
 		SyncSemaphore *sync;
 
-		virtual void call() { *ret = (instance->*method)(p1,p2,p3,p4); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			*ret = (instance->*method)(p1, p2, p3, p4);
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
-	template<class T,class M,class P1,class P2,class P3,class P4,class P5,class R>
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class R>
 	struct CommandRet5 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
 		typename GetSimpleTypeT<P3>::type_t p3;
 		typename GetSimpleTypeT<P4>::type_t p4;
 		typename GetSimpleTypeT<P5>::type_t p5;
-		R* ret;
+		R *ret;
 		SyncSemaphore *sync;
 
-		virtual void call() { *ret = (instance->*method)(p1,p2,p3,p4,p5); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			*ret = (instance->*method)(p1, p2, p3, p4, p5);
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
-	template<class T,class M,class P1,class P2,class P3,class P4,class P5,class P6,class R>
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class R>
 	struct CommandRet6 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
@@ -246,16 +366,20 @@ class CommandQueueMT {
 		typename GetSimpleTypeT<P4>::type_t p4;
 		typename GetSimpleTypeT<P5>::type_t p5;
 		typename GetSimpleTypeT<P6>::type_t p6;
-		R* ret;
+		R *ret;
 		SyncSemaphore *sync;
 
-		virtual void call() { *ret = (instance->*method)(p1,p2,p3,p4,p5,p6); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			*ret = (instance->*method)(p1, p2, p3, p4, p5, p6);
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
-	template<class T,class M,class P1,class P2,class P3,class P4,class P5,class P6,class P7,class R>
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class R>
 	struct CommandRet7 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
@@ -264,56 +388,95 @@ class CommandQueueMT {
 		typename GetSimpleTypeT<P5>::type_t p5;
 		typename GetSimpleTypeT<P6>::type_t p6;
 		typename GetSimpleTypeT<P7>::type_t p7;
-		R* ret;
+		R *ret;
 		SyncSemaphore *sync;
 
-		virtual void call() { *ret = (instance->*method)(p1,p2,p3,p4,p5,p6,p7); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			*ret = (instance->*method)(p1, p2, p3, p4, p5, p6, p7);
+			sync->sem->post();
+			sync->in_use = false;
+		}
+	};
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8, class R>
+	struct CommandRet8 : public CommandBase {
+
+		T *instance;
+		M method;
+		typename GetSimpleTypeT<P1>::type_t p1;
+		typename GetSimpleTypeT<P2>::type_t p2;
+		typename GetSimpleTypeT<P3>::type_t p3;
+		typename GetSimpleTypeT<P4>::type_t p4;
+		typename GetSimpleTypeT<P5>::type_t p5;
+		typename GetSimpleTypeT<P6>::type_t p6;
+		typename GetSimpleTypeT<P7>::type_t p7;
+		typename GetSimpleTypeT<P8>::type_t p8;
+		R *ret;
+		SyncSemaphore *sync;
+
+		virtual void call() {
+			*ret = (instance->*method)(p1, p2, p3, p4, p5, p6, p7, p8);
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
 	/** commands that don't return but sync */
 
 	/* comands that return */
 
-	template<class T,class M>
+	template <class T, class M>
 	struct CommandSync0 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 
 		SyncSemaphore *sync;
 
-		virtual void call() {  (instance->*method)(); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			(instance->*method)();
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
-	template<class T,class M,class P1>
+	template <class T, class M, class P1>
 	struct CommandSync1 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 
 		SyncSemaphore *sync;
 
-		virtual void call() {  (instance->*method)(p1); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			(instance->*method)(p1);
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
-	template<class T,class M,class P1,class P2>
+	template <class T, class M, class P1, class P2>
 	struct CommandSync2 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
 
 		SyncSemaphore *sync;
 
-		virtual void call() {  (instance->*method)(p1,p2); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			(instance->*method)(p1, p2);
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
-	template<class T,class M,class P1,class P2,class P3>
+	template <class T, class M, class P1, class P2, class P3>
 	struct CommandSync3 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
@@ -321,13 +484,17 @@ class CommandQueueMT {
 
 		SyncSemaphore *sync;
 
-		virtual void call() {  (instance->*method)(p1,p2,p3); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			(instance->*method)(p1, p2, p3);
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
-	template<class T,class M,class P1,class P2,class P3,class P4>
+	template <class T, class M, class P1, class P2, class P3, class P4>
 	struct CommandSync4 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
@@ -336,13 +503,17 @@ class CommandQueueMT {
 
 		SyncSemaphore *sync;
 
-		virtual void call() {  (instance->*method)(p1,p2,p3,p4); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			(instance->*method)(p1, p2, p3, p4);
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
-	template<class T,class M,class P1,class P2,class P3,class P4,class P5>
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5>
 	struct CommandSync5 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
@@ -352,13 +523,17 @@ class CommandQueueMT {
 
 		SyncSemaphore *sync;
 
-		virtual void call() {  (instance->*method)(p1,p2,p3,p4,p5); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			(instance->*method)(p1, p2, p3, p4, p5);
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
-	template<class T,class M,class P1,class P2,class P3,class P4,class P5,class P6>
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6>
 	struct CommandSync6 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
@@ -369,13 +544,17 @@ class CommandQueueMT {
 
 		SyncSemaphore *sync;
 
-		virtual void call() {  (instance->*method)(p1,p2,p3,p4,p5,p6); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			(instance->*method)(p1, p2, p3, p4, p5, p6);
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
-	template<class T,class M,class P1,class P2,class P3,class P4,class P5,class P6,class P7>
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7>
 	struct CommandSync7 : public CommandBase {
 
-		T*instance;
+		T *instance;
 		M method;
 		typename GetSimpleTypeT<P1>::type_t p1;
 		typename GetSimpleTypeT<P2>::type_t p2;
@@ -387,17 +566,43 @@ class CommandQueueMT {
 
 		SyncSemaphore *sync;
 
-		virtual void call() {  (instance->*method)(p1,p2,p3,p4,p5,p6,p7); sync->sem->post(); sync->in_use=false; ; }
+		virtual void call() {
+			(instance->*method)(p1, p2, p3, p4, p5, p6, p7);
+			sync->sem->post();
+			sync->in_use = false;
+		}
+	};
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8>
+	struct CommandSync8 : public CommandBase {
+
+		T *instance;
+		M method;
+		typename GetSimpleTypeT<P1>::type_t p1;
+		typename GetSimpleTypeT<P2>::type_t p2;
+		typename GetSimpleTypeT<P3>::type_t p3;
+		typename GetSimpleTypeT<P4>::type_t p4;
+		typename GetSimpleTypeT<P5>::type_t p5;
+		typename GetSimpleTypeT<P6>::type_t p6;
+		typename GetSimpleTypeT<P7>::type_t p7;
+		typename GetSimpleTypeT<P8>::type_t p8;
+
+		SyncSemaphore *sync;
+
+		virtual void call() {
+			(instance->*method)(p1, p2, p3, p4, p5, p6, p7, p8);
+			sync->sem->post();
+			sync->in_use = false;
+		}
 	};
 
 	/***** BASE *******/
 
 	enum {
-		COMMAND_MEM_SIZE_KB=256,
-		COMMAND_MEM_SIZE=COMMAND_MEM_SIZE_KB*1024,
-		SYNC_SEMAPHORES=8
+		COMMAND_MEM_SIZE_KB = 256,
+		COMMAND_MEM_SIZE = COMMAND_MEM_SIZE_KB * 1024,
+		SYNC_SEMAPHORES = 8
 	};
-
 
 	uint8_t command_mem[COMMAND_MEM_SIZE];
 	uint32_t read_ptr;
@@ -406,270 +611,361 @@ class CommandQueueMT {
 	Mutex *mutex;
 	Semaphore *sync;
 
-
-	template<class T>
-	T* allocate() {
+	template <class T>
+	T *allocate() {
 
 		// alloc size is size+T+safeguard
-		uint32_t alloc_size=sizeof(T)+sizeof(uint32_t);
+		uint32_t alloc_size = sizeof(T) + sizeof(uint32_t);
 
-		tryagain:
+	tryagain:
 
 		if (write_ptr < read_ptr) {
 			// behind read_ptr, check that there is room
-			if ( (read_ptr-write_ptr) <= alloc_size )
+			if ((read_ptr - write_ptr) <= alloc_size)
 				return NULL;
 		} else if (write_ptr >= read_ptr) {
 			// ahead of read_ptr, check that there is room
 
-
-			if ( (COMMAND_MEM_SIZE-write_ptr) < alloc_size+4 ) {
+			if ((COMMAND_MEM_SIZE - write_ptr) < alloc_size + 4) {
 				// no room at the end, wrap down;
 
-				if (read_ptr==0) // dont want write_ptr to become read_ptr
+				if (read_ptr == 0) // don't want write_ptr to become read_ptr
 					return NULL;
 
 				// if this happens, it's a bug
-				ERR_FAIL_COND_V( (COMMAND_MEM_SIZE-write_ptr) < sizeof(uint32_t), NULL );
-				// zero means, wrap to begining
+				ERR_FAIL_COND_V((COMMAND_MEM_SIZE - write_ptr) < sizeof(uint32_t), NULL);
+				// zero means, wrap to beginning
 
-				uint32_t * p = (uint32_t*)&command_mem[write_ptr];
-				*p=0;
-				write_ptr=0;
+				uint32_t *p = (uint32_t *)&command_mem[write_ptr];
+				*p = 0;
+				write_ptr = 0;
 				goto tryagain;
 			}
 		}
 		// allocate the size
-		uint32_t * p = (uint32_t*)&command_mem[write_ptr];
-		*p=sizeof(T);
-		write_ptr+=sizeof(uint32_t);
+		uint32_t *p = (uint32_t *)&command_mem[write_ptr];
+		*p = sizeof(T);
+		write_ptr += sizeof(uint32_t);
 		// allocate the command
-		T* cmd = memnew_placement( &command_mem[write_ptr], T );
-		write_ptr+=sizeof(T);
+		T *cmd = memnew_placement(&command_mem[write_ptr], T);
+		write_ptr += sizeof(T);
 		return cmd;
-
 	}
 
-	template<class T>
-	T* allocate_and_lock() {
+	template <class T>
+	T *allocate_and_lock() {
 
 		lock();
-		T* ret;
+		T *ret;
 
-		while ( (ret=allocate<T>())==NULL ) {
+		while ((ret = allocate<T>()) == NULL) {
 
 			unlock();
 			// sleep a little until fetch happened and some room is made
 			wait_for_flush();
 			lock();
-
 		}
 
 		return ret;
 	}
 
-
 	bool flush_one() {
 
-		tryagain:
+	tryagain:
 
 		// tried to read an empty queue
-		if (read_ptr == write_ptr )
+		if (read_ptr == write_ptr)
 			return false;
 
-		uint32_t size = *(uint32_t*)( &command_mem[read_ptr] );
+		uint32_t size = *(uint32_t *)(&command_mem[read_ptr]);
 
-		if (size==0) {
+		if (size == 0) {
 			//end of ringbuffer, wrap
-			read_ptr=0;
+			read_ptr = 0;
 			goto tryagain;
 		}
 
-		read_ptr+=sizeof(uint32_t);
+		read_ptr += sizeof(uint32_t);
 
-		CommandBase *cmd = reinterpret_cast<CommandBase*>( &command_mem[read_ptr] );
+		CommandBase *cmd = reinterpret_cast<CommandBase *>(&command_mem[read_ptr]);
 
 		cmd->call();
 		cmd->~CommandBase();
 
-		read_ptr+=size;
+		read_ptr += size;
 
 		return true;
 	}
 
-
 	void lock();
 	void unlock();
 	void wait_for_flush();
-	SyncSemaphore* _alloc_sync_sem();
-
+	SyncSemaphore *_alloc_sync_sem();
 
 public:
-
 	/* NORMAL PUSH COMMANDS */
 
-	template<class T, class M>
-	void push( T * p_instance, M p_method ) {
+	template <class T, class M>
+	void push(T *p_instance, M p_method) {
 
-		Command0<T,M> * cmd = allocate_and_lock< Command0<T,M> >();
+		Command0<T, M> *cmd = allocate_and_lock<Command0<T, M> >();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-
-		unlock();
-
-		if (sync) sync->post();
-	}
-
-	template<class T, class M, class P1>
-	void push( T * p_instance, M p_method, P1 p1 ) {
-
-		Command1<T,M,P1> * cmd = allocate_and_lock< Command1<T,M,P1> >();
-
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
+		cmd->instance = p_instance;
+		cmd->method = p_method;
 
 		unlock();
 
 		if (sync) sync->post();
 	}
 
-	template<class T, class M, class P1, class P2>
-	void push( T * p_instance, M p_method, P1 p1, P2 p2 ) {
+	template <class T, class M, class P1>
+	void push(T *p_instance, M p_method, P1 p1) {
 
-		Command2<T,M,P1,P2> * cmd = allocate_and_lock< Command2<T,M,P1,P2> >();
+		Command1<T, M, P1> *cmd = allocate_and_lock<Command1<T, M, P1> >();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-
-		unlock();
-
-		if (sync) sync->post();
-	}
-
-	template<class T, class M, class P1, class P2, class P3>
-	void push( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3 ) {
-
-		Command3<T,M,P1,P2,P3> * cmd = allocate_and_lock< Command3<T,M,P1,P2,P3> >();
-
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
 
 		unlock();
 
 		if (sync) sync->post();
 	}
 
-	template<class T, class M, class P1, class P2, class P3, class P4>
-	void push( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4 ) {
+	template <class T, class M, class P1, class P2>
+	void push(T *p_instance, M p_method, P1 p1, P2 p2) {
 
-		Command4<T,M,P1,P2,P3,P4> * cmd = allocate_and_lock< Command4<T,M,P1,P2,P3,P4> >();
+		Command2<T, M, P1, P2> *cmd = allocate_and_lock<Command2<T, M, P1, P2> >();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
-		cmd->p4=p4;
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
 
 		unlock();
 
 		if (sync) sync->post();
 	}
 
-	template<class T, class M, class P1, class P2, class P3, class P4, class P5>
-	void push( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5 ) {
+	template <class T, class M, class P1, class P2, class P3>
+	void push(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3) {
 
-		Command5<T,M,P1,P2,P3,P4,P5> * cmd = allocate_and_lock< Command5<T,M,P1,P2,P3,P4,P5> >();
+		Command3<T, M, P1, P2, P3> *cmd = allocate_and_lock<Command3<T, M, P1, P2, P3> >();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
-		cmd->p4=p4;
-		cmd->p5=p5;
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
 
 		unlock();
 
 		if (sync) sync->post();
 	}
 
-	template<class T, class M, class P1, class P2, class P3, class P4, class P5, class P6>
-	void push( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6 ) {
+	template <class T, class M, class P1, class P2, class P3, class P4>
+	void push(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4) {
 
-		Command6<T,M,P1,P2,P3,P4,P5,P6> * cmd = allocate_and_lock< Command6<T,M,P1,P2,P3,P4,P5,P6> >();
+		Command4<T, M, P1, P2, P3, P4> *cmd = allocate_and_lock<Command4<T, M, P1, P2, P3, P4> >();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
-		cmd->p4=p4;
-		cmd->p5=p5;
-		cmd->p6=p6;
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
 
 		unlock();
 
 		if (sync) sync->post();
 	}
 
-	template<class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7>
-	void push( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6, P7 p7 ) {
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5>
+	void push(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) {
 
-		Command7<T,M,P1,P2,P3,P4,P5,P6,P7> * cmd = allocate_and_lock< Command7<T,M,P1,P2,P3,P4,P5,P6,P7> >();
+		Command5<T, M, P1, P2, P3, P4, P5> *cmd = allocate_and_lock<Command5<T, M, P1, P2, P3, P4, P5> >();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
-		cmd->p4=p4;
-		cmd->p5=p5;
-		cmd->p6=p6;
-		cmd->p7=p7;
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
 
 		unlock();
 
 		if (sync) sync->post();
 	}
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6>
+	void push(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6) {
+
+		Command6<T, M, P1, P2, P3, P4, P5, P6> *cmd = allocate_and_lock<Command6<T, M, P1, P2, P3, P4, P5, P6> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+		cmd->p6 = p6;
+
+		unlock();
+
+		if (sync) sync->post();
+	}
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7>
+	void push(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6, P7 p7) {
+
+		Command7<T, M, P1, P2, P3, P4, P5, P6, P7> *cmd = allocate_and_lock<Command7<T, M, P1, P2, P3, P4, P5, P6, P7> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+		cmd->p6 = p6;
+		cmd->p7 = p7;
+
+		unlock();
+
+		if (sync) sync->post();
+	}
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8>
+	void push(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6, P7 p7, P8 p8) {
+
+		Command8<T, M, P1, P2, P3, P4, P5, P6, P7, P8> *cmd = allocate_and_lock<Command8<T, M, P1, P2, P3, P4, P5, P6, P7, P8> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+		cmd->p6 = p6;
+		cmd->p7 = p7;
+		cmd->p8 = p8;
+
+		unlock();
+
+		if (sync) sync->post();
+	}
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8, class P9>
+	void push(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6, P7 p7, P8 p8, P9 p9) {
+
+		Command9<T, M, P1, P2, P3, P4, P5, P6, P7, P8, P9> *cmd = allocate_and_lock<Command9<T, M, P1, P2, P3, P4, P5, P6, P7, P8, P9> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+		cmd->p6 = p6;
+		cmd->p7 = p7;
+		cmd->p8 = p8;
+		cmd->p9 = p9;
+
+		unlock();
+
+		if (sync) sync->post();
+	}
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8, class P9, class P10>
+	void push(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6, P7 p7, P8 p8, P9 p9, P10 p10) {
+
+		Command10<T, M, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> *cmd = allocate_and_lock<Command10<T, M, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+		cmd->p6 = p6;
+		cmd->p7 = p7;
+		cmd->p8 = p8;
+		cmd->p9 = p9;
+		cmd->p10 = p10;
+
+		unlock();
+
+		if (sync) sync->post();
+	}
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8, class P9, class P10, class P11>
+	void push(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6, P7 p7, P8 p8, P9 p9, P10 p10, P11 p11) {
+
+		Command11<T, M, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> *cmd = allocate_and_lock<Command11<T, M, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+		cmd->p6 = p6;
+		cmd->p7 = p7;
+		cmd->p8 = p8;
+		cmd->p9 = p9;
+		cmd->p10 = p10;
+		cmd->p11 = p11;
+
+		unlock();
+
+		if (sync) sync->post();
+	}
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8, class P9, class P10, class P11, class P12>
+	void push(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6, P7 p7, P8 p8, P9 p9, P10 p10, P11 p11, P12 p12) {
+
+		Command12<T, M, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> *cmd = allocate_and_lock<Command12<T, M, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+		cmd->p6 = p6;
+		cmd->p7 = p7;
+		cmd->p8 = p8;
+		cmd->p9 = p9;
+		cmd->p10 = p10;
+		cmd->p11 = p11;
+		cmd->p12 = p12;
+
+		unlock();
+
+		if (sync) sync->post();
+	}
+
 	/*** PUSH AND RET COMMANDS ***/
 
+	template <class T, class M, class R>
+	void push_and_ret(T *p_instance, M p_method, R *r_ret) {
 
-	template<class T, class M,class R>
-	void push_and_ret( T * p_instance, M p_method, R* r_ret) {
+		SyncSemaphore *ss = _alloc_sync_sem();
 
-		CommandRet0<T,M,R> * cmd = allocate_and_lock< CommandRet0<T,M,R> >();
+		CommandRet0<T, M, R> *cmd = allocate_and_lock<CommandRet0<T, M, R> >();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->ret=r_ret;
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->ret = r_ret;
 
-		unlock();
-
-		if (sync) sync->post();
-		ss->sem->wait();
-	}
-
-	template<class T, class M, class P1,class R>
-	void push_and_ret( T * p_instance, M p_method, P1 p1, R* r_ret) {
-
-		CommandRet1<T,M,P1,R> * cmd = allocate_and_lock< CommandRet1<T,M,P1,R> >();
-
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->ret=r_ret;
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		cmd->sync = ss;
 
 		unlock();
 
@@ -677,38 +973,19 @@ public:
 		ss->sem->wait();
 	}
 
-	template<class T, class M, class P1, class P2,class R>
-	void push_and_ret( T * p_instance, M p_method, P1 p1, P2 p2, R* r_ret) {
+	template <class T, class M, class P1, class R>
+	void push_and_ret(T *p_instance, M p_method, P1 p1, R *r_ret) {
 
-		CommandRet2<T,M,P1,P2,R> * cmd = allocate_and_lock< CommandRet2<T,M,P1,P2,R> >();
+		SyncSemaphore *ss = _alloc_sync_sem();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->ret=r_ret;
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		CommandRet1<T, M, P1, R> *cmd = allocate_and_lock<CommandRet1<T, M, P1, R> >();
 
-		unlock();
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->ret = r_ret;
 
-		if (sync) sync->post();
-		ss->sem->wait();
-	}
-
-	template<class T, class M, class P1, class P2, class P3,class R>
-	void push_and_ret( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3, R* r_ret ) {
-
-		CommandRet3<T,M,P1,P2,P3,R> * cmd = allocate_and_lock< CommandRet3<T,M,P1,P2,P3,R> >();
-
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
-		cmd->ret=r_ret;
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		cmd->sync = ss;
 
 		unlock();
 
@@ -716,42 +993,20 @@ public:
 		ss->sem->wait();
 	}
 
-	template<class T, class M, class P1, class P2, class P3, class P4,class R>
-	void push_and_ret( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, R* r_ret ) {
+	template <class T, class M, class P1, class P2, class R>
+	void push_and_ret(T *p_instance, M p_method, P1 p1, P2 p2, R *r_ret) {
 
-		CommandRet4<T,M,P1,P2,P3,P4,R> * cmd = allocate_and_lock< CommandRet4<T,M,P1,P2,P3,P4,R> >();
+		SyncSemaphore *ss = _alloc_sync_sem();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
-		cmd->p4=p4;
-		cmd->ret=r_ret;
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		CommandRet2<T, M, P1, P2, R> *cmd = allocate_and_lock<CommandRet2<T, M, P1, P2, R> >();
 
-		unlock();
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->ret = r_ret;
 
-		if (sync) sync->post();
-		ss->sem->wait();
-	}
-
-	template<class T, class M, class P1, class P2, class P3, class P4, class P5,class R>
-	void push_and_ret( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, R* r_ret ) {
-
-		CommandRet5<T,M,P1,P2,P3,P4,P5,R> * cmd = allocate_and_lock< CommandRet5<T,M,P1,P2,P3,P4,P5,R> >();
-
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
-		cmd->p4=p4;
-		cmd->p5=p5;
-		cmd->ret=r_ret;
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		cmd->sync = ss;
 
 		unlock();
 
@@ -759,46 +1014,21 @@ public:
 		ss->sem->wait();
 	}
 
-	template<class T, class M, class P1, class P2, class P3, class P4, class P5, class P6,class R>
-	void push_and_ret( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6, R* r_ret ) {
+	template <class T, class M, class P1, class P2, class P3, class R>
+	void push_and_ret(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, R *r_ret) {
 
-		CommandRet6<T,M,P1,P2,P3,P4,P5,P6,R> * cmd = allocate_and_lock< CommandRet6<T,M,P1,P2,P3,P4,P5,P6,R> >();
+		SyncSemaphore *ss = _alloc_sync_sem();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
-		cmd->p4=p4;
-		cmd->p5=p5;
-		cmd->p6=p6;
-		cmd->ret=r_ret;
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		CommandRet3<T, M, P1, P2, P3, R> *cmd = allocate_and_lock<CommandRet3<T, M, P1, P2, P3, R> >();
 
-		unlock();
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->ret = r_ret;
 
-		if (sync) sync->post();
-		ss->sem->wait();
-	}
-
-	template<class T, class M, class P1, class P2, class P3, class P4, class P5, class P6,class P7,class R>
-	void push_and_ret( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6,P7 p7, R* r_ret ) {
-
-		CommandRet7<T,M,P1,P2,P3,P4,P5,P6,P7,R> * cmd = allocate_and_lock< CommandRet7<T,M,P1,P2,P3,P4,P5,P6,P7,R> >();
-
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
-		cmd->p4=p4;
-		cmd->p5=p5;
-		cmd->p6=p6;
-		cmd->p7=p7;
-		cmd->ret=r_ret;
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		cmd->sync = ss;
 
 		unlock();
 
@@ -806,35 +1036,22 @@ public:
 		ss->sem->wait();
 	}
 
+	template <class T, class M, class P1, class P2, class P3, class P4, class R>
+	void push_and_ret(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, R *r_ret) {
 
-	template<class T, class M>
-	void push_and_sync( T * p_instance, M p_method) {
+		SyncSemaphore *ss = _alloc_sync_sem();
 
-		CommandSync0<T,M> * cmd = allocate_and_lock< CommandSync0<T,M> >();
+		CommandRet4<T, M, P1, P2, P3, P4, R> *cmd = allocate_and_lock<CommandRet4<T, M, P1, P2, P3, P4, R> >();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->ret = r_ret;
 
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
-
-		unlock();
-
-		if (sync) sync->post();
-		ss->sem->wait();
-	}
-
-	template<class T, class M, class P1>
-	void push_and_sync( T * p_instance, M p_method, P1 p1) {
-
-		CommandSync1<T,M,P1> * cmd = allocate_and_lock< CommandSync1<T,M,P1> >();
-
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		cmd->sync = ss;
 
 		unlock();
 
@@ -842,38 +1059,23 @@ public:
 		ss->sem->wait();
 	}
 
-	template<class T, class M, class P1, class P2>
-	void push_and_sync( T * p_instance, M p_method, P1 p1, P2 p2) {
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class R>
+	void push_and_ret(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, R *r_ret) {
 
-		CommandSync2<T,M,P1,P2> * cmd = allocate_and_lock< CommandSync2<T,M,P1,P2> >();
+		SyncSemaphore *ss = _alloc_sync_sem();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
+		CommandRet5<T, M, P1, P2, P3, P4, P5, R> *cmd = allocate_and_lock<CommandRet5<T, M, P1, P2, P3, P4, P5, R> >();
 
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+		cmd->ret = r_ret;
 
-		unlock();
-
-		if (sync) sync->post();
-		ss->sem->wait();
-	}
-
-	template<class T, class M, class P1, class P2, class P3>
-	void push_and_sync( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3 ) {
-
-		CommandSync3<T,M,P1,P2,P3> * cmd = allocate_and_lock< CommandSync3<T,M,P1,P2,P3> >();
-
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
-
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		cmd->sync = ss;
 
 		unlock();
 
@@ -881,42 +1083,24 @@ public:
 		ss->sem->wait();
 	}
 
-	template<class T, class M, class P1, class P2, class P3, class P4>
-	void push_and_sync( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4 ) {
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class R>
+	void push_and_ret(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6, R *r_ret) {
 
-		CommandSync4<T,M,P1,P2,P3,P4> * cmd = allocate_and_lock< CommandSync4<T,M,P1,P2,P3,P4> >();
+		SyncSemaphore *ss = _alloc_sync_sem();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
-		cmd->p4=p4;
+		CommandRet6<T, M, P1, P2, P3, P4, P5, P6, R> *cmd = allocate_and_lock<CommandRet6<T, M, P1, P2, P3, P4, P5, P6, R> >();
 
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+		cmd->p6 = p6;
+		cmd->ret = r_ret;
 
-		unlock();
-
-		if (sync) sync->post();
-		ss->sem->wait();
-	}
-
-	template<class T, class M, class P1, class P2, class P3, class P4, class P5>
-	void push_and_sync( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5 ) {
-
-		CommandSync5<T,M,P1,P2,P3,P4,P5> * cmd = allocate_and_lock< CommandSync5<T,M,P1,P2,P3,P4,P5> >();
-
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
-		cmd->p4=p4;
-		cmd->p5=p5;
-
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		cmd->sync = ss;
 
 		unlock();
 
@@ -924,22 +1108,25 @@ public:
 		ss->sem->wait();
 	}
 
-	template<class T, class M, class P1, class P2, class P3, class P4, class P5, class P6>
-	void push_and_sync( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6 ) {
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class R>
+	void push_and_ret(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6, P7 p7, R *r_ret) {
 
-		CommandSync6<T,M,P1,P2,P3,P4,P5,P6> * cmd = allocate_and_lock< CommandSync6<T,M,P1,P2,P3,P4,P5,P6> >();
+		SyncSemaphore *ss = _alloc_sync_sem();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
-		cmd->p4=p4;
-		cmd->p5=p5;
-		cmd->p6=p6;
+		CommandRet7<T, M, P1, P2, P3, P4, P5, P6, P7, R> *cmd = allocate_and_lock<CommandRet7<T, M, P1, P2, P3, P4, P5, P6, P7, R> >();
 
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+		cmd->p6 = p6;
+		cmd->p7 = p7;
+		cmd->ret = r_ret;
+
+		cmd->sync = ss;
 
 		unlock();
 
@@ -947,23 +1134,224 @@ public:
 		ss->sem->wait();
 	}
 
-	template<class T, class M, class P1, class P2, class P3, class P4, class P5, class P6,class P7>
-	void push_and_sync( T * p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6,P7 p7 ) {
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8, class R>
+	void push_and_ret(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6, P7 p7, P8 p8, R *r_ret) {
 
-		CommandSync7<T,M,P1,P2,P3,P4,P5,P6,P7> * cmd = allocate_and_lock< CommandSync7<T,M,P1,P2,P3,P4,P5,P6,P7> >();
+		SyncSemaphore *ss = _alloc_sync_sem();
 
-		cmd->instance=p_instance;
-		cmd->method=p_method;
-		cmd->p1=p1;
-		cmd->p2=p2;
-		cmd->p3=p3;
-		cmd->p4=p4;
-		cmd->p5=p5;
-		cmd->p6=p6;
-		cmd->p7=p7;
+		CommandRet8<T, M, P1, P2, P3, P4, P5, P6, P7, P8, R> *cmd = allocate_and_lock<CommandRet8<T, M, P1, P2, P3, P4, P5, P6, P7, P8, R> >();
 
-		SyncSemaphore *ss=_alloc_sync_sem();
-		cmd->sync=ss;
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+		cmd->p6 = p6;
+		cmd->p7 = p7;
+		cmd->p8 = p8;
+		cmd->ret = r_ret;
+
+		cmd->sync = ss;
+
+		unlock();
+
+		if (sync) sync->post();
+		ss->sem->wait();
+	}
+
+	template <class T, class M>
+	void push_and_sync(T *p_instance, M p_method) {
+
+		SyncSemaphore *ss = _alloc_sync_sem();
+
+		CommandSync0<T, M> *cmd = allocate_and_lock<CommandSync0<T, M> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+
+		cmd->sync = ss;
+
+		unlock();
+
+		if (sync) sync->post();
+		ss->sem->wait();
+	}
+
+	template <class T, class M, class P1>
+	void push_and_sync(T *p_instance, M p_method, P1 p1) {
+
+		SyncSemaphore *ss = _alloc_sync_sem();
+
+		CommandSync1<T, M, P1> *cmd = allocate_and_lock<CommandSync1<T, M, P1> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+
+		cmd->sync = ss;
+
+		unlock();
+
+		if (sync) sync->post();
+		ss->sem->wait();
+	}
+
+	template <class T, class M, class P1, class P2>
+	void push_and_sync(T *p_instance, M p_method, P1 p1, P2 p2) {
+
+		SyncSemaphore *ss = _alloc_sync_sem();
+
+		CommandSync2<T, M, P1, P2> *cmd = allocate_and_lock<CommandSync2<T, M, P1, P2> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+
+		cmd->sync = ss;
+
+		unlock();
+
+		if (sync) sync->post();
+		ss->sem->wait();
+	}
+
+	template <class T, class M, class P1, class P2, class P3>
+	void push_and_sync(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3) {
+
+		SyncSemaphore *ss = _alloc_sync_sem();
+
+		CommandSync3<T, M, P1, P2, P3> *cmd = allocate_and_lock<CommandSync3<T, M, P1, P2, P3> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+
+		cmd->sync = ss;
+
+		unlock();
+
+		if (sync) sync->post();
+		ss->sem->wait();
+	}
+
+	template <class T, class M, class P1, class P2, class P3, class P4>
+	void push_and_sync(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4) {
+
+		SyncSemaphore *ss = _alloc_sync_sem();
+
+		CommandSync4<T, M, P1, P2, P3, P4> *cmd = allocate_and_lock<CommandSync4<T, M, P1, P2, P3, P4> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+
+		cmd->sync = ss;
+
+		unlock();
+
+		if (sync) sync->post();
+		ss->sem->wait();
+	}
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5>
+	void push_and_sync(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) {
+
+		SyncSemaphore *ss = _alloc_sync_sem();
+
+		CommandSync5<T, M, P1, P2, P3, P4, P5> *cmd = allocate_and_lock<CommandSync5<T, M, P1, P2, P3, P4, P5> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+
+		cmd->sync = ss;
+
+		unlock();
+
+		if (sync) sync->post();
+		ss->sem->wait();
+	}
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6>
+	void push_and_sync(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6) {
+
+		SyncSemaphore *ss = _alloc_sync_sem();
+
+		CommandSync6<T, M, P1, P2, P3, P4, P5, P6> *cmd = allocate_and_lock<CommandSync6<T, M, P1, P2, P3, P4, P5, P6> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+		cmd->p6 = p6;
+
+		cmd->sync = ss;
+
+		unlock();
+
+		if (sync) sync->post();
+		ss->sem->wait();
+	}
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7>
+	void push_and_sync(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6, P7 p7) {
+
+		SyncSemaphore *ss = _alloc_sync_sem();
+
+		CommandSync7<T, M, P1, P2, P3, P4, P5, P6, P7> *cmd = allocate_and_lock<CommandSync7<T, M, P1, P2, P3, P4, P5, P6, P7> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+		cmd->p6 = p6;
+		cmd->p7 = p7;
+
+		cmd->sync = ss;
+
+		unlock();
+
+		if (sync) sync->post();
+		ss->sem->wait();
+	}
+
+	template <class T, class M, class P1, class P2, class P3, class P4, class P5, class P6, class P7, class P8>
+	void push_and_sync(T *p_instance, M p_method, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6, P7 p7, P8 p8) {
+
+		SyncSemaphore *ss = _alloc_sync_sem();
+
+		CommandSync8<T, M, P1, P2, P3, P4, P5, P6, P7, P8> *cmd = allocate_and_lock<CommandSync8<T, M, P1, P2, P3, P4, P5, P6, P7, P8> >();
+
+		cmd->instance = p_instance;
+		cmd->method = p_method;
+		cmd->p1 = p1;
+		cmd->p2 = p2;
+		cmd->p3 = p3;
+		cmd->p4 = p4;
+		cmd->p5 = p5;
+		cmd->p6 = p6;
+		cmd->p7 = p7;
+		cmd->p8 = p8;
+
+		cmd->sync = ss;
 
 		unlock();
 
@@ -993,7 +1381,6 @@ public:
 
 	CommandQueueMT(bool p_sync);
 	~CommandQueueMT();
-
 };
 
 #endif

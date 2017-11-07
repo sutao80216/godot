@@ -3,9 +3,10 @@
 /*************************************************************************/
 /*                       This file is part of:                           */
 /*                           GODOT ENGINE                                */
-/*                    http://www.godotengine.org                         */
+/*                      https://godotengine.org                          */
 /*************************************************************************/
-/* Copyright (c) 2007-2016 Juan Linietsky, Ariel Manzur.                 */
+/* Copyright (c) 2007-2017 Juan Linietsky, Ariel Manzur.                 */
+/* Copyright (c) 2014-2017 Godot Engine contributors (cf. AUTHORS.md)    */
 /*                                                                       */
 /* Permission is hereby granted, free of charge, to any person obtaining */
 /* a copy of this software and associated documentation files (the       */
@@ -26,7 +27,7 @@
 /* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE     */
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                */
 /*************************************************************************/
-#if defined(OPENGL_ENABLED) || defined(LEGACYGL_ENABLED) || defined(GLES2_ENABLED)
+#if defined(OPENGL_ENABLED) || defined(GLES2_ENABLED)
 //
 // C++ Interface: context_gl_x11
 //
@@ -42,12 +43,13 @@
 #ifndef CONTEXT_GL_WIN_H
 #define CONTEXT_GL_WIN_H
 
-
-#include "os/os.h"
 #include "drivers/gl_context/context_gl.h"
 #include "error_list.h"
+#include "os/os.h"
 
 #include <windows.h>
+
+typedef bool(APIENTRY *PFNWGLSWAPINTERVALEXTPROC)(int interval);
 
 class ContextGL_Win : public ContextGL {
 
@@ -56,9 +58,11 @@ class ContextGL_Win : public ContextGL {
 	unsigned int pixel_format;
 	HWND hWnd;
 	bool opengl_3_context;
+	bool use_vsync;
+
+	PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
+
 public:
-
-
 	virtual void release_current();
 
 	virtual void make_current();
@@ -69,10 +73,11 @@ public:
 
 	virtual Error initialize();
 
+	virtual void set_use_vsync(bool p_use);
+	virtual bool is_using_vsync() const;
 
-	ContextGL_Win(HWND hwnd,bool p_opengl_3_context);
+	ContextGL_Win(HWND hwnd, bool p_opengl_3_context);
 	~ContextGL_Win();
-
 };
 
 #endif

@@ -3,9 +3,10 @@
 /*************************************************************************/
 /*                       This file is part of:                           */
 /*                           GODOT ENGINE                                */
-/*                    http://www.godotengine.org                         */
+/*                      https://godotengine.org                          */
 /*************************************************************************/
-/* Copyright (c) 2007-2016 Juan Linietsky, Ariel Manzur.                 */
+/* Copyright (c) 2007-2017 Juan Linietsky, Ariel Manzur.                 */
+/* Copyright (c) 2014-2017 Godot Engine contributors (cf. AUTHORS.md)    */
 /*                                                                       */
 /* Permission is hereby granted, free of charge, to any person obtaining */
 /* a copy of this software and associated documentation files (the       */
@@ -40,6 +41,7 @@ import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.os.*;
 import android.util.Log;
+import android.util.DisplayMetrics;
 import android.graphics.*;
 import android.text.method.*;
 import android.text.*;
@@ -287,6 +289,11 @@ public class GodotIO {
 
 		try {
 			ad.files = am.list(path);
+			// no way to find path is directory or file exactly.
+			// but if ad.files.length==0, then it's an empty directory or file.
+			if (ad.files.length==0) {
+				return -1;
+			}
 		} catch (IOException e) {
 
 			System.out.printf("Exception on dir_open: %s\n",e);
@@ -463,7 +470,7 @@ public class GodotIO {
 	}
 
 	/////////////////////////
-	// MISCELANEOUS OS IO
+	// MISCELLANEOUS OS IO
 	/////////////////////////
 
 
@@ -511,6 +518,11 @@ public class GodotIO {
 
 	public String getModel() {
 		return Build.MODEL;
+	}
+
+	public int getScreenDPI() {
+		DisplayMetrics metrics = applicationContext.getResources().getDisplayMetrics();
+		return (int)(metrics.density * 160f);
 	}
 
 	public boolean needsReloadHooks() {

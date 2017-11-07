@@ -1,3 +1,32 @@
+/*************************************************************************/
+/*  HttpRequester.java                                                   */
+/*************************************************************************/
+/*                       This file is part of:                           */
+/*                           GODOT ENGINE                                */
+/*                      https://godotengine.org                          */
+/*************************************************************************/
+/* Copyright (c) 2007-2017 Juan Linietsky, Ariel Manzur.                 */
+/* Copyright (c) 2014-2017 Godot Engine contributors (cf. AUTHORS.md)    */
+/*                                                                       */
+/* Permission is hereby granted, free of charge, to any person obtaining */
+/* a copy of this software and associated documentation files (the       */
+/* "Software"), to deal in the Software without restriction, including   */
+/* without limitation the rights to use, copy, modify, merge, publish,   */
+/* distribute, sublicense, and/or sell copies of the Software, and to    */
+/* permit persons to whom the Software is furnished to do so, subject to */
+/* the following conditions:                                             */
+/*                                                                       */
+/* The above copyright notice and this permission notice shall be        */
+/* included in all copies or substantial portions of the Software.       */
+/*                                                                       */
+/* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,       */
+/* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF    */
+/* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.*/
+/* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  */
+/* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,  */
+/* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE     */
+/* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                */
+/*************************************************************************/
 package org.godotengine.godot.utils;
 
 import java.io.BufferedReader;
@@ -50,12 +79,12 @@ public class HttpRequester {
 	private long cttl=0;
 	
 	public HttpRequester(){
-//		Log.d("XXX", "Creando http request sin contexto");
+		//Log.d("XXX", "Creando http request sin contexto");
 	}
 	
 	public HttpRequester(Context context){
 		this.context=context;
-//		Log.d("XXX", "Creando http request con contexto");
+		//Log.d("XXX", "Creando http request con contexto");
 	}
 	
 	public String post(RequestParams params){
@@ -71,7 +100,7 @@ public class HttpRequester {
 	public String get(RequestParams params){
 		String response = getResponseFromCache(params.getUrl());
 		if(response == null){
-//			Log.d("XXX", "Cache miss!");
+			//Log.d("XXX", "Cache miss!");
 		    HttpGet httpget = new HttpGet(params.getUrl());
 		    long timeInit = new Date().getTime();
 		    response = request(httpget);
@@ -89,7 +118,7 @@ public class HttpRequester {
 	}
 	
 	private String request(HttpUriRequest request){
-//		Log.d("XXX", "Haciendo request a: " + request.getURI() );
+		//Log.d("XXX", "Haciendo request a: " + request.getURI() );
 		Log.d("PPP", "Haciendo request a: " + request.getURI() );
 		long init = new Date().getTime();
 		HttpClient httpclient = getNewHttpClient();
@@ -100,10 +129,10 @@ public class HttpRequester {
 	    try {
 	        HttpResponse response = httpclient.execute(request);
 	        Log.d("PPP", "Fin de request (" + (new Date().getTime() - init) + ") a: " + request.getURI() );
-//	        Log.d("XXX1", "Status:" + response.getStatusLine().toString());
+			//Log.d("XXX1", "Status:" + response.getStatusLine().toString());
 	        if(response.getStatusLine().getStatusCode() == 200){
 	        	String strResponse = EntityUtils.toString(response.getEntity());
-//	        	Log.d("XXX2", strResponse);
+				//Log.d("XXX2", strResponse);
 	        	return strResponse;
 	        }else{
 	        	Log.d("XXX3", "Response status code:" + response.getStatusLine().getStatusCode() + "\n" + EntityUtils.toString(response.getEntity()));
@@ -164,7 +193,7 @@ public class HttpRequester {
 
 	public void saveResponseIntoCache(String request, String response){
 		if(context == null){
-//			Log.d("XXX", "No context, cache failed!");
+			//Log.d("XXX", "No context, cache failed!");
 			return;
 		}
         SharedPreferences sharedPref = context.getSharedPreferences("http_get_cache", Context.MODE_PRIVATE); 

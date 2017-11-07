@@ -19,6 +19,7 @@ package com.google.android.vending.expansion.downloader;
 import com.godot.game.R;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.os.SystemClock;
@@ -220,8 +221,12 @@ public class Helpers {
 
     static public String getSaveFilePath(Context c) {
         File root = Environment.getExternalStorageDirectory();
-        String path = root.toString() + Constants.EXP_PATH + c.getPackageName();
-        return path;
+        // this makes several issues with Android SDK >= 23 devices.
+        // https://github.com/danikula/Google-Play-Expansion-File/commit/93a03bd34acad67c6ea34cfb6c3f02c93bdcea85
+        // https://issuetracker.google.com/issues/37075181
+        //String path = Build.VERSION.SDK_INT >= 23 ? Constants.EXP_PATH_API23 : Constants.EXP_PATH;
+        String path = Constants.EXP_PATH;
+        return root.toString() + path + c.getPackageName();
     }
 
     /**

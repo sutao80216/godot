@@ -1,3 +1,32 @@
+/*************************************************************************/
+/*  PurchaseTask.java                                                    */
+/*************************************************************************/
+/*                       This file is part of:                           */
+/*                           GODOT ENGINE                                */
+/*                      https://godotengine.org                          */
+/*************************************************************************/
+/* Copyright (c) 2007-2017 Juan Linietsky, Ariel Manzur.                 */
+/* Copyright (c) 2014-2017 Godot Engine contributors (cf. AUTHORS.md)    */
+/*                                                                       */
+/* Permission is hereby granted, free of charge, to any person obtaining */
+/* a copy of this software and associated documentation files (the       */
+/* "Software"), to deal in the Software without restriction, including   */
+/* without limitation the rights to use, copy, modify, merge, publish,   */
+/* distribute, sublicense, and/or sell copies of the Software, and to    */
+/* permit persons to whom the Software is furnished to do so, subject to */
+/* the following conditions:                                             */
+/*                                                                       */
+/* The above copyright notice and this permission notice shall be        */
+/* included in all copies or substantial portions of the Software.       */
+/*                                                                       */
+/* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,       */
+/* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF    */
+/* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.*/
+/* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  */
+/* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,  */
+/* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE     */
+/* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                */
+/*************************************************************************/
 package org.godotengine.godot.payments;
 
 import org.json.JSONException;
@@ -35,18 +64,20 @@ abstract public class PurchaseTask {
 		Log.d("XXX", "Starting purchase for: " + sku);
 		PaymentsCache pc = new PaymentsCache(context);
 		Boolean isBlocked = pc.getConsumableFlag("block", sku);
-//		if(isBlocked){
-//			Log.d("XXX", "Is awaiting payment confirmation");
-//			error("Awaiting payment confirmation");
-//			return;
-//		}
+		/*
+		if(isBlocked){
+			Log.d("XXX", "Is awaiting payment confirmation");
+			error("Awaiting payment confirmation");
+			return;
+		}
+		*/
 		final String hash = transactionId;
 
 		Bundle buyIntentBundle;
 		try {
 			buyIntentBundle = mService.getBuyIntent(3, context.getApplicationContext().getPackageName(), sku, "inapp", hash  );
 		} catch (RemoteException e) {
-//			Log.d("XXX", "Error: " + e.getMessage());
+			//Log.d("XXX", "Error: " + e.getMessage());
 			error(e.getMessage());
 			return;
 		}
@@ -59,7 +90,7 @@ abstract public class PurchaseTask {
 		}else if( rc instanceof Long){
 			responseCode = (int)((Long)rc).longValue();
 		}
-//		Log.d("XXX", "Buy intent response code: " + responseCode);
+		//Log.d("XXX", "Buy intent response code: " + responseCode);
 		if(responseCode == 1 || responseCode == 3 || responseCode == 4){
 			canceled();
 			return;
@@ -74,12 +105,12 @@ abstract public class PurchaseTask {
 		pc.setConsumableValue("validation_hash", sku, hash);
 		try {
 			if(context == null){
-//				Log.d("XXX", "No context!");
+				//Log.d("XXX", "No context!");
 			}
 			if(pendingIntent == null){
-//				Log.d("XXX", "No pending intent");
+				//Log.d("XXX", "No pending intent");
 			}
-//			Log.d("XXX", "Starting activity for purchase!");
+			//Log.d("XXX", "Starting activity for purchase!");
 			context.startIntentSenderForResult(
 					pendingIntent.getIntentSender(),
 					PaymentsManager.REQUEST_CODE_FOR_PURCHASE, 
